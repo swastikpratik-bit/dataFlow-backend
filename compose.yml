@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5433:5432"
+    shm_size: 128mb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: speeddb   # 👈 auto-create this database
+
+volumes:
+  pgdata:
+    driver: local

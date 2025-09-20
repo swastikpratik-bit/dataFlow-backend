@@ -1,0 +1,29 @@
+{
+  "name": "data-management-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "Modern Node.js API server for data management",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "fs-extra": "^11.3.2",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
