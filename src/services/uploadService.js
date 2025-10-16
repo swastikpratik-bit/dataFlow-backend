@@ -88,8 +88,34 @@ async processExcel(filePath) {
     )
   `);
 
+  if (results.length > 0) {
+    console.log('Available columns:', Object.keys(results[0]));
+    console.log('Sample row data:', JSON.stringify(results[0], null, 2));
+  }
+
   let count = 0;
   for (const row of results) {
+    // Handle different possible column name variations
+    const firstName = row["First Name"] || row["first_name"] || row["FirstName"] || row["first name"];
+    const lastName = row["Last Name"] || row["last_name"] || row["LastName"] || row["last name"];
+    const gender = row["Gender"] || row["gender"];
+    const country = row["Country"] || row["country"];
+    const age = row["Age"] || row["age"];
+    const date = row["Date"] || row["date"];
+    const id = row["Id"] || row["id"] || row["ID"] || row["ext_id"] || row["Ext_Id"] || row["External_Id"] || row["external_id"] || row["User_Id"] || row["user_id"] || row["Person_Id"] || row["person_id"];
+
+    // Debug logging for the first row
+    if (count === 0) {
+      console.log('ID field value:', id);
+      console.log('All row keys:', Object.keys(row));
+    }
+
+    // Skip if no ID found
+    if (!id) {
+      console.log(`Skipping row ${count + 1}: No ID found`);
+      continue;
+    }
+
     await pool.query(
       `INSERT INTO people_data 
         (first_name, last_name, gender, country, age, date, ext_id) 
@@ -103,13 +129,13 @@ async processExcel(filePath) {
         age = EXCLUDED.age,
         date = EXCLUDED.date`,
       [
-        row["First Name"],
-        row["Last Name"],
-        row["Gender"],
-        row["Country"],
-        row["Age"],
-        convertToISO(row["Date"]),
-        row["Id"]
+        firstName,
+        lastName,
+        gender,
+        country,
+        age,
+        convertToISO(date),
+        id
       ]
     );
     count++;
